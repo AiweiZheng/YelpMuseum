@@ -1,0 +1,29 @@
+{
+  "name": "yelp_museum",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AiweiZheng/YelpMuseum.git"
+  },
+  "author": "Aiwei Zheng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AiweiZheng/YelpMuseum/issues"
+  },
+  "homepage": "https://github.com/AiweiZheng/YelpMuseum#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "connect-flash": "^0.1.1",
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "mongoose": "^4.9.4",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0"
+  }
+}

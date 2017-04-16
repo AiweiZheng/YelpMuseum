@@ -1,0 +1,27 @@
+<% include ../partials/header %>
+
+    <header class="jumbotron">
+        <h1><i class="fa fa-university"></i>  Welcome To YelpMuseum</h1>
+        <p>View our hand-picked Museums from all over the world</p>
+        <p>
+            <a class="btn btn-primary btn-large" href="/museums/new">Add New Museum</a>
+        </p>
+    </header>
+    
+    <div class="row text-center"  style="display:flex;flex-wrap:wrap">
+        <% museums.forEach(function(museum){%>
+        <div class="col-md-3 col-sm-6">
+            <div class="thumbnail">
+                <img src="<%=museum.image%>">
+                <div class="caption">
+                  <h4><%=museum.name%></h4>
+                </div>
+                <p>
+                    <a href="/museums/<%= museum._id %>" class="btn btn-primary">More Info</a>
+                <p>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+    
+<% include ../partials/footer %>

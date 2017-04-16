@@ -1,6 +1,7 @@
 var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
+    methodOverride= require("method-override"),
     mongoose = require("mongoose"),
     flash = require("connect-flash"),
     passport =require("passport"),
@@ -8,6 +9,7 @@ var express = require("express"),
     
     User = require("./models/user"),
     indexRoutes = require("./routes/index"),
+    commentRoutes = require("./routes/comments"),
     museumRoutes = require("./routes/museums");
 
 app.use(bodyParser.urlencoded({extended:true})); 
@@ -15,6 +17,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine","ejs");
 app.use(express.static(__dirname+"/public"));
 app.use(flash());
+app.use(methodOverride("_method"));
 
 
 var url = process.env.DATABASEURL || "mongodb://localhost/yelp_museum";
@@ -43,7 +46,8 @@ app.use(function(req,res,next){//middleware which will be executed on every sing
 
 
 //ROUTES !!!!!!!!!!!MUST AFTER "passport configuaration" !!!!!!!!!!!!!!!!!!!!!
-app.use(indexRoutes);
+app.use("/",indexRoutes);
+app.use("/museums/:id/comments",commentRoutes);
 app.use("/museums", museumRoutes);
 
 

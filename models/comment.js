@@ -8,6 +8,13 @@ var commentSchema = mongoose.Schema({
             ref:"User"
         },
         username:String
+    },
+    museum:{
+        id:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Museum"
+        },
+        museumname:String
     }
 });
 

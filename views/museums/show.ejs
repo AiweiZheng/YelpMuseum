@@ -14,12 +14,14 @@
                 <div class="caption-full">
                     <h4 class="pull-right">$<%= museum.price%>/night</h4>
                     <h4><a><%= museum.name%></a></h4>
-                    <p> <%=museum.description%></p>
+                    <p><%=museum.description%></p>
                     <p>
                         <em>Submitted By <%=museum.author.username%></em>
                     </p>
                     <% if(currentUser && museum.author.id.equals(currentUser._id)) { %>
-                        <a class= "btn btn-warning" href="/museums/<%= museum._id %>/edit">Edit</a>
+                        <a class= "btn btn-warning" href="/museums/<%= museum._id %>/edit">
+                            Edit
+                        </a>
                         <form 
                             id="delete-form"
                             action="/museums/<%= museum._id %>?_method=delete" 
@@ -47,9 +49,8 @@
                             <strong><%= comment.author.username %></strong>
                             <span class="pull-right">10 days ago</span>
                             <p>
-                                <%= comment.text %>
+                                <%= comment.content %>
                             </p>
-                            
                              <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
                                 <a class="btn btn-xs btn-warning" 
                                     href="/museums/<%=museum._id%>/comments/<%=comment._id%>/edit">

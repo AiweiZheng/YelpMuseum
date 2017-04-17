@@ -2,7 +2,7 @@ var express = require("express"),
     router = express(),
     middleware = require("../middleware/index"),
     Museum = require("../models/museum"),
-    errorMessage = require("../utilities/errorMessages")
+    errorMessage = require("../utilities/messages")
 
 //show all museums
 router.get("/",(req,res)=>{
@@ -49,6 +49,7 @@ router.get("/:id",(req,res)=>{
             req.flash("error",errorMessage.db_error);
             res.redirect("back");
         }else{
+
             res.render("museums/show",{museum:foundMuseum});
         }
     });

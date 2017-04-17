@@ -10,7 +10,8 @@ var express = require("express"),
     User = require("./models/user"),
     indexRoutes = require("./routes/index"),
     commentRoutes = require("./routes/comments"),
-    museumRoutes = require("./routes/museums");
+    museumRoutes = require("./routes/museums"),
+    appConst     = require("./common/const");
 
 app.use(bodyParser.urlencoded({extended:true})); 
 
@@ -39,8 +40,8 @@ passport.deserializeUser(User.deserializeUser());
 //MUST after session because "flash" requires session.
 app.use(function(req,res,next){//middleware which will be executed on every single route.MUST BEFORE ROUTES
     res.locals.currentUser = req.user;
-    res.locals.error = req.flash("error");
-    res.locals.success = req.flash("success");
+    res.locals.error = req.flash(appConst.flash_error);
+    res.locals.success = req.flash(appConst.flash_success);
     next();
 })
 

@@ -1,62 +1,60 @@
 var middlewareObject = {},
-    Museum           = require("../models/museum"),
+    appConst         = require("../common/const"),
     Comment          = require("../models/comment"),
-    messages         = require("../utilities/messages");
-
-middlewareObject.checkMuseumOwnership= function(req,res,next){
-    if(req.isAuthenticated()){
-        Museum.findById(req.params.id,(err,foundMuseum)=>{
-            if(err){
-                console.log(err);
-                req.flash("error",messages.db_error);
-                res.redirect("back");
-            }else{
-                if(foundMuseum.author.id.equals(req.user._id)){
-                    next();
-                }else{
-                    req.flash("error",messages.db_error);
-                    res.redirect("back");
-                }
-            }
-        });
-    }else{
-        req.flash("error",messages.login_required);
-        res.redirect("back");
-    }
-};
+    Museum           = require("../models/museum"),
+    mongoose         = require("mongoose");
+    mongoose.Promise = require("bluebird");
 
 middlewareObject.checkCommentOwnership = function(req,res,next){
     if(req.isAuthenticated()){
-        Comment.findById(req.params.commentId,(err,foundComment)=>{
-            if(err){
-                console.log(err);
-                req.flash("error",messages.db_error);
-                res.redirect("back");
-            }else{
-                if(foundComment.author.id.equals(req.user._id)){
-                    next();
-                }else{
-                    req.flash("error",messages.permission_denied);
-                    res.redirect("back");
-                }
-            }
+        Comment.findById(req.params.commentId).then( foundComment => {
+           //success,check ownership   
+           if(userIdentityCheck(foundComment.author.id, req.user._id)) {
+               next();
+           } else {
+              appConst.redirectBack(req,res,appConst.permission_denied); 
+           }
+           
+        }).catch( dbErr => {//catch database read error
+            console.log(dbErr);
+            appConst.redirectBack(req,res,appConst.db_error);
         });
-    }else{
-        req.flash("error",messages.login_required);
-        res.redirect("back");
+    } else { //not login yet
+        appConst.redirectBack(req,res,appConst.login_required);
     }
 };
 
+middlewareObject.checkMuseumOwnership= function(req,res,next){
+    if(req.isAuthenticated()) {
+        Museum.findById(req.params.id).then( foundMuseum => {
+            //success, check ownership 
+          if(userIdentityCheck(foundMuseum.author.id,req.user._id)) {
+              next();
+          } else {
+              appConst.redirectBack(req,res,appConst.permission_denied); 
+          }
+          
+        }).catch(dbErr => {//catch database read error
+            console.log(dbErr);
+            appConst.redirectBack(req,res,appConst.db_error);
+        });
 
+    } else {//not login yet
+        appConst.redirectBack(req,res,appConst.login_required);
+    }
+};
 
 middlewareObject.isLoggedIn = function(req,res,next){
     if(req.isAuthenticated()){
         next();
     }else{
-        req.flash("error",messages.login_required);
-        console.log(req);
+        req.flash(appConst.flash_error,appConst.login_required);
         res.redirect("/login");
     }
 };
+
+function userIdentityCheck(owner,reqUser,next){
+    return owner.equals(reqUser) ? true:false
+}
 
 module.exports = middlewareObject;

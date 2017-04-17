@@ -2,7 +2,7 @@ var express  = require("express"),
     router   = express.Router(),
     User     = require("../models/user"),
     passport = require("passport"),
-    messages = require("../utilities/messages")
+    appConst = require("../common/const")
 
 //root route
 router.get("/",(req,res)=>{
@@ -24,7 +24,7 @@ router.post("/register",(req,res)=>{
             return res.render("register",{error: err.message});//must pass an object to "res.render()" to show error msg.
         }
         passport.authenticate("local")(req,res,()=>{
-            req.flash("success",messages.welcome_msg);
+            req.flash(appConst.flash_success,appConst.welcome_msg);
             res.redirect("/museums");
         });
     });
@@ -41,14 +41,14 @@ router.post("/login",passport.authenticate("local",//call authenticate middlewar
             successRedirect:"/museums",
             failureRedirect:"/login",
             failureFlash:true,
-            successFlash:messages.welcome_msg
+            successFlash:appConst.welcome_msg
       }), (req,res)=>{}
 );
 
 
 router.get("/logout",(req,res)=>{
     req.logout();
-    req.flash("success",messages.goodbye_msg);
+    req.flash(appConst.flash_success,appConst.goodbye_msg);
     res.redirect("/museums");
 })
 

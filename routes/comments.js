@@ -3,87 +3,78 @@ var express = require("express"),
     router = express.Router({mergeParams:true}),
     Museum = require("../models/museum"),
     Comment = require("../models/comment"),
-    messages = require("../utilities/messages");
+    appConst = require("../common/const"),
+    mongoose         = require("mongoose");
+    
+    mongoose.Promise = require("bluebird");
 
 //add a new comment
 router.post("/",middleware.isLoggedIn,(req,res)=>{
     var comment = req.body.comment;
-    Museum.findById(req.params.id,(err,foundMuseum)=>{
-        if(err){
-            console.log(err);
-            req.flash("error",messages.db_error);
-            res.redirect("back");
-        }else {//found museum successfully
-            Comment.create(comment,(err,newlyComment)=>{
-                if(err){
-                    req.flash("error",messages.db_error);
-                    res.redirect("back");
-                } else {
-                      newlyComment.author.id = req.user._id;
-                      newlyComment.author.username = req.user.username;
-                      newlyComment.museum.id = foundMuseum._id;
-                      newlyComment.museum.museumname = foundMuseum.name;
-                      newlyComment.save();
-                      foundMuseum.comments.push(newlyComment);
-                      foundMuseum.save();
-                      req.flash("error",messages.comment_add_success);
-                      res.redirect("/museums/"+req.params.id);
-                }
-            });
-        }
+    var museum;
+    Museum.findById(req.params.id).then(foundMuseum => {
+        museum = foundMuseum;
+        return Comment.create(comment);
+    }).then(newlyComment =>{
+         newlyComment.author.id = req.user._id;
+         newlyComment.author.username = req.user.username;
+         newlyComment.museum.id = museum._id;
+         newlyComment.museum.museumname = museum.name;
+         return newlyComment.save();
+    }).then(comment =>{
+        museum.comments.push(comment);
+        return museum.save();
+    }).then(() =>{
+        req.flash(appConst.flash_success,appConst.comment_add_success);
+        res.redirect("/museums/"+req.params.id);
+    }).catch(dbErr =>{
+        console.log(dbErr); 
+        appConst.redirectBack(req,res,appConst.db_error);
     });
 });
 
-
 //show form to create a new comment
 router.get("/new",middleware.isLoggedIn,(req,res)=>{
-    Museum.findById(req.params.id,(err,foundMuseum)=>{
-        if(err){
-            console.log(err);
-            req.flash("error",messages.db_error);
-            res.redirect("back");
-        }else{
-             res.render("comments/new",{museum:foundMuseum});
-        }
+    Museum.findById(req.params.id).then(foundMuseum => {
+        res.render("comments/new",{museum:foundMuseum});
+        
+        }).catch(dbErr =>{
+            console.log(dbErr); 
+            appConst.redirectBack(req,res,appConst.db_error);
     });
 });
 
 //show form to edit a comment
 router.get("/:commentId/edit",middleware.checkCommentOwnership,(req,res)=>{
-    Comment.findById(req.params.commentId,(err,foundComment)=>{
-        if(err){
-            console.log(err);
-            req.flash("error",messages.db_error);
-            res.redirect("back");
-        }else{
+    Comment.findById(req.params.commentId).then(foundComment => {
             res.render("comments/edit",{comment:foundComment});
-        }
+            
+    }).catch(dbErr =>{
+            console.log(dbErr); 
+            appConst.redirectBack(req,res,appConst.db_error);
     });
 });
 
 //update particular comment, then redirect to show page
 router.put("/:commentId",middleware.checkCommentOwnership,(req,res)=>{
-    Comment.findByIdAndUpdate(req.params.commentId,req.body.comment,(err,foundComment)=>{
-        if(err){
-            console.log(err);
-            req.flash("error",messages.db_error);
-            res.redirect("back");
-        } else {
+    Comment.findByIdAndUpdate(req.params.commentId,
+                              req.body.comment).then(foundComment=> {
             res.redirect("/museums/"+req.params.id);
-        }
+    
+    }).catch(dbErr =>{
+            console.log(dbErr); 
+            appConst.redirectBack(req,res,appConst.db_error);
     });
 });
 
 //delete particular comment
 router.delete("/:commentId",middleware.checkCommentOwnership,(req,res)=>{
-    Comment.findByIdAndRemove(req.params.commentId,(err)=>{
-        if(err){
-            console.log(err);
-            req.flash("error",messages.db_error);
-            res.redirect("back");
-        } else {
-            res.redirect("/museums/"+req.params.id);
-        }
+    Comment.findByIdAndRemove(req.params.commentId).then(()=> {
+        res.redirect("/museums/"+req.params.id);
+    
+    }).catch(dbErr =>{
+        console.log(dbErr); 
+        appConst.redirectBack(req,res,appConst.db_error);
     });
 })
 

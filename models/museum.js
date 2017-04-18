@@ -3,20 +3,21 @@ var mongoose = require("mongoose");
 var MuseumSchema = new mongoose.Schema({
     name: String,
     image: String,
-    price: String,
+    price: Number,
     description: String,
-    author:{
-        id:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"User"
-        },
+    createdAt: { type: Date, default: Date.now() },
+    author: {
+        id: {
+             type:mongoose.Schema.Types.ObjectId,
+             ref: "User"
+         },
         username:String
     },
-    comments:[{
-             type:mongoose.Schema.Types.ObjectId,
-             ref:"Comment"
+    comments: [{
+             type: mongoose.Schema.Types.ObjectId,
+             ref: "Comment"
         }]
 });
 
-module.exports = mongoose.model("Museum",MuseumSchema);
+module.exports = mongoose.model("Museum", MuseumSchema);
 

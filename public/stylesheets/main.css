@@ -8,7 +8,7 @@ body{
      margin-top:6.0em;
 }
 
-.title{
+.title {
     text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
 	 			 0px 8px 13px rgba(0,0,0,0.1),
 	 			 0px 18px 23px rgba(0,0,0,0.1);
@@ -16,11 +16,11 @@ body{
 	 		
 }
 
-jumbotron{
-    background-color:#e6e6e6;
+jumbotron {
+    background-color: #e6e6e6;
 }
 
-a{
+a {
     color:#3f5973;
     font-weight: bold;
 }
@@ -34,38 +34,34 @@ hr {
 }
 
 
-.input-form{
-    width:30%;
+.input-form {
+    width: 30%;
     margin: 20px auto;
 }
 
-.thumbnail img{
-    width:100%;
+.thumbnail img {
+    width: 100%;
 }
 
-.thumbnail{
-    padding:0;
-    background-color:#f9f9eb;
+.thumbnail {
+    padding: 0;
+    background-color: #f9f9eb;
 }
 
-.flex-wrap{
-    display:flex;
-    flex-wrap:wrap
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap
 }
 
-.caption-full{
+.caption-full {
     padding-left: 10px;
-    padding-right:10px;
+    padding-right: 10px;
     padding-bottom: 5px;
 }
-.caption{
-    white-space: nowrap;
-    overflow:hidden;
-}
 
-.text-ceneter{
-    text-align:center;
+.text-ceneter {
+    text-align: center;
 }
-#delete-form{
-    display:inline;
+#delete-form {
+    display: inline;
 }

@@ -16,7 +16,8 @@
                     <h4><a><%= museum.name%></a></h4>
                     <p><%=museum.description%></p>
                     <p>
-                        <em>Submitted By <%=museum.author.username%></em>
+                        <em>Submitted By <%=museum.author.username%></em>,
+                        <%= moment(museum.createdAt).fromNow() %>
                     </p>
                     <% if(currentUser && museum.author.id.equals(currentUser._id)) { %>
                         <a class= "btn btn-warning" href="/museums/<%= museum._id %>/edit">
@@ -47,7 +48,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <strong><%= comment.author.username %></strong>
-                            <span class="pull-right">10 days ago</span>
+                            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
                             <p>
                                 <%= comment.content %>
                             </p>

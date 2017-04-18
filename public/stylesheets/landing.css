@@ -2,6 +2,36 @@ body {
   background-color: #000;
 }
 
+.round {
+		text-decoration: none;		
+		text-align: center;
+		font-size: 25px;		
+		text-shadow: 0 1px 0 rgba(255,255,255,.7);
+		letter-spacing: -.065em;
+		font-family: "Hammersmith One", sans-serif;		
+		box-shadow: 2px 2px 7px rgba(0,0,0,.2);
+		border-radius: 50%;
+		z-index: 1;
+		border-width: 4px;
+		border-style: solid;
+		background-color: rgba(1,151,171,1);
+		color: rgba(0,63,71,1);
+		border-color: rgba(0,63,71,.2);
+		animation: enterBtnAnimation 1s linear infinite; 
+		animation-fill-mode: both;
+		animation-direction: alternate;
+	}
+
+a:hover{
+  animation: enterBtnAnimation 1s linear 0;
+}
+@keyframes enterBtnAnimation { 
+ 
+  from{	transform: scale(1); animation-timing-function: ease-in;}
+  to{	transform: scale(0.9); animation-timing-function: ease-out;}
+}
+
+	
 #landing-header {
   z-index: 1;
   position: relative;
@@ -9,9 +39,15 @@ body {
   padding-top: 40vh;
 }
 
+
 #landing-header h1 {
   color: #fff;
-  
+  font-family: 'Droid serif', serif; 
+  font-size: 36px; font-weight: 400; 
+  font-style: italic;
+  line-height: 44px;
+  margin: 0 0 12px;
+  text-align: center; 
 }
 
 .slideshow { 

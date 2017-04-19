@@ -95,18 +95,18 @@ a:hover{
 
 
 .slideshow li:nth-child(1) { 
-  background-image: url(/images/1.jpg) 
+  background-image: url(/media/1.jpg) 
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(/images/2.jpg);
+  background-image: url(/media/2.jpg);
   animation-delay: 10s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(/images/3.jpg);
+  background-image: url(/media/3.jpg);
   animation-delay: 20s; 
 }
 .slideshow li:nth-child(4) { 
-  background-image: url(/images/4.jpg);
+  background-image: url(/media/4.jpg);
   animation-delay: 30s; 
 }
 .slideshow li:nth-child(5) { 

@@ -1,24 +1,46 @@
-var express    = require("express"),
-    router     = express(),
-    middleware = require("../middleware/index"),
-    Museum     = require("../models/museum"),
-    appConst   = require("../common/const"),
-    mongoose   = require("mongoose"),
-    moment     = require("moment");
+var express        = require("express"),
+    router         = express(),
+    middleware     = require("../middleware/index"),
+    Museum         = require("../models/museum"),
+    appConst       = require("../common/const"),
+    ajaxResHandler = require("../common/ajaxResHandler"),
+    mongoose       = require("mongoose"),
+    moment         = require("moment");
     
     mongoose.Promise = require("bluebird");
-    
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 //show all museums
 router.get("/",(req, res)=> {
-    Museum.find({}).then(allMuseums=> {
-        //success
-     
-        res.render("museums/index", { museums:allMuseums, page: "museums" });
-    
-    }).catch(dbErr=> {//catch database error
-        console.log(dbErr); 
-        appConst.redirectBack(req, res, appConst.db_error);
-    });
+    if(req.query.search && req.xhr) {
+        const regex = new RegExp(escapeRegex(req.query.search),'gi');
+        Museum.find({ name:regex }).then(allMuseums => {
+             ajaxResHandler.success(res, allMuseums);
+        }).catch(dbErr=> {
+             console.log(dbErr);
+             ajaxResHandler.fail(res, appConst.db_error);
+        });
+        
+    } else {
+        Museum.find({}).then(allMuseums=> {
+            //success
+            if(req.xhr){
+                ajaxResHandler.success(res, allMuseums);
+            }else{
+                res.render("museums/index", { museums:allMuseums, page: "museums" });
+            }
+            
+        }).catch(dbErr=> {//catch database error
+            console.log(dbErr); 
+            if(req.xhr){
+                ajaxResHandler.fail(res, appConst.db_error);
+            }else{
+                appConst.redirectBack(req, res, appConst.db_error);
+            }
+        });
+    }
 });
 
 

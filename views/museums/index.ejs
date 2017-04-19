@@ -6,9 +6,16 @@
         <p>
             <a class="btn btn-primary btn-large" href="/museums/new">Add New Museum</a>
         </p>
+        <p>
+            <form class="form-inline" id = "museum-search" action="/museums" method= "GET">
+                <div class = "form-group">
+                    <input class="form-control" type="text" name="search" placeholder="search for museum...">
+                </div>
+            <form>
+        </p>
     </header>
     
-    <div class="row text-center" style="flex-wrap">
+    <div class="row text-center flex-wrap" id= "museum-grid">
         <% museums.forEach(function(museum){%>
         <div class="col-md-3 col-sm-6">
             <div class="thumbnail">

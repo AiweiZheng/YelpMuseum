@@ -3,7 +3,8 @@
     <head>
         <script src="/lib/jquery-3.2.1.min.js"></script>
         <script src="/lib/bootstrap.min.js"></script>
-        <script src="/lib/main.js"></script>
+        <script src="/script/main.js"></script>
+        <script src="/script/search.js" async defer></script>
         <script type="text/javascript" src="/lib/jquery-dirtyforms-min.js"></script>
         <link rel="stylesheet"  href="/stylesheets/bootstrap.min.css">
         <link rel="stylesheet" href="/stylesheets/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -58,6 +59,7 @@
                                  </a>
                              </li>
                           <% } else { %>
+                              <li><a href="#">Signed In As <%= currentUser.username %></a></li>
                               <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                           <% } %>
                       </ul>
@@ -73,6 +75,6 @@
             <% if(error && error.length >0 ) { %>
                 <div class="alert alert-danger"><%= error %></div>
              <% } %>
-        
-     
+             <!--display ajax call error. Better way to do that???-->
+            <div class="alert alert-danger" id="ajaxError" style="display: none;"></div>
         

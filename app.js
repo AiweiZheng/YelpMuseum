@@ -20,8 +20,8 @@ app.use(express.static(__dirname + "/public"));
 app.use(flash());
 app.use(methodOverride("_method"));
 
-var url = "mongodb://aiwei:yelpmuseum@ds163010.mlab.com:63010/yelp_museum";
-//var url = process.env.DATABASEURL || "mongodb://localhost/yelp_museum";
+//var url = "mongodb://aiwei:yelpmuseum@ds163010.mlab.com:63010/yelp_museum";
+var url = process.env.DATABASEURL || "mongodb://localhost/yelp_museum";
 mongoose.connect(url);
 
 //PASSPORT CONFIGURATION

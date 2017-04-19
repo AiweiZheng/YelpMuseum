@@ -14,6 +14,7 @@ function escapeRegex(text) {
 }
 //show all museums
 router.get("/",(req, res)=> {
+    
     if(req.query.search && req.xhr) {
         const regex = new RegExp(escapeRegex(req.query.search),'gi');
         Museum.find({ name:regex }).then(allMuseums => {
@@ -29,7 +30,7 @@ router.get("/",(req, res)=> {
             if(req.xhr){
                 ajaxResHandler.success(res, allMuseums);
             }else{
-                res.render("museums/index", { museums:allMuseums, page: "museums" });
+                res.render("museums/index", { museums:allMuseums , page: "museums" });
             }
             
         }).catch(dbErr=> {//catch database error
@@ -94,6 +95,38 @@ router.get("/:id/edit",middleware.checkMuseumOwnership, (req,res)=> {
     });
 });
 
+//like a museum. MUST place it before /:id
+router.put("/likes", middleware.isLoggedIn, (req, res)=> {
+    
+     var reqData = req.body;
+     Museum.findById( reqData.museumId ).then(foundMuseum=> {
+        foundMuseum.likedBy.push(reqData.userId);
+        return foundMuseum.save();
+     }).then(( savedMuseum )=>{
+
+         ajaxResHandler.success(res, savedMuseum.likedBy.length);
+     }).catch((err)=> {
+         console.log(err);
+         ajaxResHandler.fail(res,appConst.db_error);
+     });
+});
+
+//dislike
+router.delete("/likes", middleware.isLoggedIn, (req, res)=> {
+     var reqData = req.body;
+     Museum.findById( reqData.museumId ).then(foundMuseum=> {
+        var index = foundMuseum.likedBy.indexOf(reqData.userId);
+        foundMuseum.likedBy.splice(index, 1);
+        return foundMuseum.save();
+     }).then(( savedMuseum ) => {
+         
+         ajaxResHandler.success(res,savedMuseum.likedBy.length);
+     }).catch((err)=> {
+         console.log(err);
+         ajaxResHandler.fail(res,appConst.db_error);
+     });
+});
+
 //edit a particular museum, then redirect to show page
 router.put("/:id",middleware.checkMuseumOwnership,( req, res)=> {
     var data = req.body;
@@ -117,5 +150,7 @@ router.delete("/:id", middleware.checkMuseumOwnership, (req, res)=> {
         appConst.redirectBack(req, res, appConst.db_error);
     });
 });
+
+
 
 module.exports = router;

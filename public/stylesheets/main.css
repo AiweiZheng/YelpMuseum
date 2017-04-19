@@ -62,6 +62,10 @@ hr {
 .text-ceneter {
     text-align: center;
 }
+
+.clickable {
+    cursor: pointer;
+}
 #delete-form {
     display: inline;
 }

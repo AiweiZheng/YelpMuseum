@@ -16,14 +16,26 @@
     </header>
     
     <div class="row text-center flex-wrap" id= "museum-grid">
-        <% museums.forEach(function(museum){%>
+        <% museums.forEach(function(museum){ %>
         <div class="col-md-3 col-sm-6">
             <div class="thumbnail">
-                <img src="<%=museum.image%>">
+                <img src="<%= museum.image %>">
                 <div class="caption">
-                  <h4><%=museum.name%></h4>
+                  <h4><%= museum.name %></h4>
                 </div>
                 <p>
+                    <% if(currentUser) {%>
+                    
+                     <i class="<%= museum.likedBy.indexOf(currentUser._id) >= 0 ? 'fa fa-heart clickable' : 'fa fa-heart-o clickable' %>" 
+                               id = "like_<%= museum._id %>"
+                               onclick="likeOrUnlike(event,'<%= currentUser._id %>', '<%= museum._id %>',false)">
+                               <%= museum.likedBy.length %>
+                     </i>
+                        
+                    <% } else { %>
+                     <i class="fa fa-heart-o"> <%= museum.likedBy.length %> </i>
+                    <% } %>
+
                     <a href="/museums/<%= museum._id %>" class="btn btn-primary">More Info</a>
                 <p>
             </div>

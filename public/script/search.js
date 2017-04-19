@@ -1,5 +1,6 @@
 /*global $*/
 
+ 
 $('#museum-search').on('input',function() {
 
     var search = $(this).serialize();

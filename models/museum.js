@@ -14,9 +14,13 @@ var MuseumSchema = new mongoose.Schema({
         username:String
     },
     comments: [{
-             type: mongoose.Schema.Types.ObjectId,
-             ref: "Comment"
-        }]
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Comment"
+        }],
+    likedBy:  [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User"
+              }]
 });
 
 module.exports = mongoose.model("Museum", MuseumSchema);

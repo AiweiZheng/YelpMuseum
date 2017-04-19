@@ -97,7 +97,6 @@ router.get("/:id/edit",middleware.checkMuseumOwnership, (req,res)=> {
 
 //like a museum. MUST place it before /:id
 router.put("/likes", middleware.isLoggedIn, (req, res)=> {
-    
      var reqData = req.body;
      Museum.findById( reqData.museumId ).then(foundMuseum=> {
         foundMuseum.likedBy.push(reqData.userId);

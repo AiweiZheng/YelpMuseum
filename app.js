@@ -53,5 +53,5 @@ app.use("/museums", museumRoutes);
 
 
 app.listen(process.env.PORT, process.env.IP,() => {
-    console.log("YelpMeseum is running!!!!");
+    console.log("YelpMeseum is running!!");
 })

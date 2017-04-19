@@ -69,3 +69,11 @@ hr {
 #delete-form {
     display: inline;
 }
+
+.fa-heart {
+    color: red;
+}
+
+.hidden {
+    display: none;
+}

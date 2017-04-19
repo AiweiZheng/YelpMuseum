@@ -9,7 +9,7 @@
         <p>
             <form class="form-inline" id = "museum-search" action="/museums" method= "GET">
                 <div class = "form-group">
-                    <input class="form-control" type="text" name="search" placeholder="search for museum...">
+                    <input class="form-control"  type="text" name="search" placeholder="search for museum...">
                 </div>
             <form>
         </p>
@@ -27,7 +27,6 @@
                     <% if(currentUser) {%>
                     
                      <i class="<%= museum.likedBy.indexOf(currentUser._id) >= 0 ? 'fa fa-heart clickable' : 'fa fa-heart-o clickable' %>" 
-                               id = "like_<%= museum._id %>"
                                onclick="likeOrUnlike(event,'<%= currentUser._id %>', '<%= museum._id %>',false)">
                                <%= museum.likedBy.length %>
                      </i>
